@@ -15,7 +15,26 @@ class LifeBar extends Component {
 
   static defaultProps = {
     name: '',
-    value: 50
+    value: 5
+  }
+
+  decrementState(foot = 1) {
+    this.setState(prevState => ({ value: prevState.value - foot }))
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.decrementState(),
+      1000
+    )
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  shouldComponentUpdate() {
+    return this.state.value > 0
   }
 
   render() {
