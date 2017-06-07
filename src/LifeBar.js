@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap';
-
-import { string, number } from 'prop-types'
+import { Button } from 'react-bootstrap'
+import { string, number, func } from 'prop-types'
 
 class LifeBar extends Component {
   state = {
@@ -10,7 +9,8 @@ class LifeBar extends Component {
 
   static propTypes = {
     name: string,
-    value: number
+    value: number,
+    onEnd: func.isRequired
   }
 
   static defaultProps = {
@@ -20,6 +20,7 @@ class LifeBar extends Component {
 
   handleIncrement = (e) => {
     e.preventDefault()
+    this.incrementValue()
   }
 
   decrementValue = (foot = 1) => {
@@ -38,7 +39,9 @@ class LifeBar extends Component {
   }
 
   componentDidUpdate = () => {
-    // TODO check if < 0 ==> DEAD
+    if (this.state.value === 0) {
+      this.props.onEnd()
+    }
   }
 
   componentWillUnmount = () => {
@@ -46,7 +49,7 @@ class LifeBar extends Component {
   }
 
   shouldComponentUpdate = () => {
-    return this.state.value > 0
+    return this.state.value > 0 && this.state.value < 100
   }
 
   render = () => {
