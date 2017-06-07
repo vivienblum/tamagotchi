@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, ProgressBar, Col, Row } from 'react-bootstrap'
 import { string, number, func } from 'prop-types'
 
 class LifeBar extends Component {
@@ -15,7 +15,7 @@ class LifeBar extends Component {
 
   static defaultProps = {
     name: '',
-    value: 5
+    value: 50
   }
 
   handleIncrement = (e) => {
@@ -27,14 +27,14 @@ class LifeBar extends Component {
     this.setState(prevState => ({ value: prevState.value - foot }))
   }
 
-  incrementValue = (foot = 1) => {
+  incrementValue = (foot = 10) => {
     this.setState(prevState => ({ value: prevState.value + foot }))
   }
 
   componentDidMount = () => {
     this.timerID = setInterval(
       () => this.decrementValue(),
-      1000
+      500
     )
   }
 
@@ -55,11 +55,37 @@ class LifeBar extends Component {
   render = () => {
     const name = this.props.name
     const value = this.state.value
+    var style = ""
+    if (this.state.value >= 75) {
+      style = "success"
+    }
+    else if (this.state.value >= 50) {
+      style = "info"
+    }
+    else if (this.state.value >= 25) {
+      style = "warning"
+    }
+    else {
+      style = "danger"
+    }
     return (
-      <div>
-        <h1>{ name + " " + value }</h1>
-        <Button onClick={ this.handleIncrement }/>
-      </div>
+      <Row>
+        <Col xs={12} md={8}>
+          <ProgressBar
+            now={ value }
+            max="100"
+            min="0"
+            bsStyle={ style }
+            striped
+            active
+          />
+        </Col>
+        <Col xs={6} md={4}>
+          <Button onClick={ this.handleIncrement } >
+            { name }
+          </ Button>
+        </Col>
+      </Row>
     )
   }
 }

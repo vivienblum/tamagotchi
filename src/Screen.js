@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Alert, Grid } from 'react-bootstrap'
 
 import LifeBar from './LifeBar.js'
 
@@ -19,15 +20,27 @@ class Screen extends Component {
     const alive = this.state.alive
     if (alive) {
       return (
-        <LifeBar
-          name="feed"
-          onEnd={ this.handleEnd }
-        />
+        <Grid>
+          <LifeBar
+            name="feed"
+            onEnd={ this.handleEnd }
+          />
+          <LifeBar
+            name="sleep"
+            onEnd={ this.handleEnd }
+          />
+          <LifeBar
+            name="enjoy"
+            onEnd={ this.handleEnd }
+          />
+        </Grid>
       )
     }
     else {
       return (
-        <h1>DEAD</h1>
+        <Alert bsStyle="danger">
+          <strong>You are dead!</strong> Try nextime, bad master.
+        </Alert>
       )
     }
   }
