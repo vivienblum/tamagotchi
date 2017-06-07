@@ -3,18 +3,33 @@ import React, { Component } from 'react'
 import LifeBar from './LifeBar.js'
 
 class Screen extends Component {
-  handleEnd = () => {
-    console.log("dead")
+  state = {
+    alive: true
   }
 
+  handleEnd = () => {
+    this.toggleLife()
+  }
+
+  toggleLife = () => {
+    this.setState(prevState => ({ alive: !prevState.alive }))
+  }
 
   render() {
-    return (
-      <LifeBar
-        name="feed"
-        onEnd={ this.handleEnd }
-      />
-    )
+    const alive = this.state.alive
+    if (alive) {
+      return (
+        <LifeBar
+          name="feed"
+          onEnd={ this.handleEnd }
+        />
+      )
+    }
+    else {
+      return (
+        <h1>DEAD</h1>
+      )
+    }
   }
 }
 
